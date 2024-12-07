@@ -1,3 +1,5 @@
+import { MIN_BENEFIT } from "../pharmacy";
+
 export class GenericDrug {
   constructor(name, expiresIn, benefit) {
     this.name = name;
@@ -15,14 +17,11 @@ export class GenericDrug {
   }
 
   updateBenefit() {
-    if (this.expiresIn < 0) {
-      this.benefit -= 2;
-    } else {
-      this.benefit -= 1;
-    }
+    this.benefit += this.computeValueToAddToBenefit();
+    this.benefit = Math.max(this.benefit, MIN_BENEFIT);
+  }
 
-    if (this.benefit < 0) {
-      this.benefit = 0;
-    }
+  computeValueToAddToBenefit() {
+    return this.expiresIn <= 0 ? -2 : -1;
   }
 }
