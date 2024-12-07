@@ -11,10 +11,18 @@ export class GenericDrug {
   }
 
   updateExpiresIn() {
-    throw new Error("updateExpiresIn must be implemented");
+    this.expiresIn -= 1;
   }
 
   updateBenefit() {
-    throw new Error("updateBenefit must be implemented");
+    if (this.expiresIn < 0) {
+      this.benefit -= 2;
+    } else {
+      this.benefit -= 1;
+    }
+
+    if (this.benefit < 0) {
+      this.benefit = 0;
+    }
   }
 }
