@@ -115,4 +115,17 @@ describe("Pharmacy", () => {
       expect(new Pharmacy([drug]).updateBenefitValue()).toEqual([expectedDrug]);
     });
   });
+
+  describe("Magic Pill", () => {
+    it("should not change the benefit and expiresIn", () => {
+      const expiresIn = faker.number.int({ min: -99, max: 99 });
+      const benefit = faker.number.int({
+        min: MIN_BENEFIT,
+        max: MAX_BENEFIT,
+      });
+      const drug = new Drug("Magic Pill", expiresIn, benefit);
+
+      expect(new Pharmacy([drug]).updateBenefitValue()).toEqual([drug]);
+    });
+  });
 });
