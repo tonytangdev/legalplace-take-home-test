@@ -1,4 +1,5 @@
-import { Drug, Pharmacy, MIN_BENEFIT, MAX_BENEFIT } from "./pharmacy";
+import { Fervex, GenericDrug, HerbalTea, MagicPill } from "./drugs";
+import { Pharmacy, MIN_BENEFIT, MAX_BENEFIT } from "./pharmacy";
 import { faker } from "@faker-js/faker";
 
 describe("Pharmacy", () => {
@@ -10,9 +11,9 @@ describe("Pharmacy", () => {
         max: MAX_BENEFIT,
       });
 
-      const drug = new Drug("test", expiresIn, benefit);
+      const drug = new GenericDrug("test", expiresIn, benefit);
 
-      const expectedDrug = new Drug("test", expiresIn - 1, benefit - 1);
+      const expectedDrug = new GenericDrug("test", expiresIn - 1, benefit - 1);
 
       expect(new Pharmacy([drug]).updateBenefitValue()).toEqual([expectedDrug]);
     });
@@ -23,9 +24,9 @@ describe("Pharmacy", () => {
         min: MIN_BENEFIT + 2,
         max: MAX_BENEFIT,
       });
-      const drug = new Drug("test", expiresIn, benefit);
+      const drug = new GenericDrug("test", expiresIn, benefit);
 
-      const expectedDrug = new Drug("test", expiresIn - 1, benefit - 2);
+      const expectedDrug = new GenericDrug("test", expiresIn - 1, benefit - 2);
       expect(new Pharmacy([drug]).updateBenefitValue()).toEqual([expectedDrug]);
     });
 
@@ -35,27 +36,27 @@ describe("Pharmacy", () => {
         min: MIN_BENEFIT + 1,
         max: MAX_BENEFIT,
       });
-      const drug = new Drug("test", expiresIn, benefit);
+      const drug = new GenericDrug("test", expiresIn, benefit);
 
-      const expectedDrug = new Drug("test", expiresIn - 1, benefit - 1);
+      const expectedDrug = new GenericDrug("test", expiresIn - 1, benefit - 1);
       expect(new Pharmacy([drug]).updateBenefitValue()).toEqual([expectedDrug]);
     });
 
     it(`should not decrease the benefit below ${MIN_BENEFIT}`, () => {
       const expiresIn = faker.number.int({ min: 1, max: 99 });
       const benefit = MIN_BENEFIT;
-      const drug = new Drug("test", expiresIn, benefit);
+      const drug = new GenericDrug("test", expiresIn, benefit);
 
-      const expectedDrug = new Drug("test", expiresIn - 1, benefit);
+      const expectedDrug = new GenericDrug("test", expiresIn - 1, benefit);
       expect(new Pharmacy([drug]).updateBenefitValue()).toEqual([expectedDrug]);
     });
 
     it(`should not decrease the benefit below ${MIN_BENEFIT} when it should decrease by 2`, () => {
       const expiresIn = faker.number.int({ min: -99, max: 0 });
       const benefit = MIN_BENEFIT + 1;
-      const drug = new Drug("test", expiresIn, benefit);
+      const drug = new GenericDrug("test", expiresIn, benefit);
 
-      const expectedDrug = new Drug("test", expiresIn - 1, 0);
+      const expectedDrug = new GenericDrug("test", expiresIn - 1, 0);
       expect(new Pharmacy([drug]).updateBenefitValue()).toEqual([expectedDrug]);
     });
   });
@@ -67,9 +68,13 @@ describe("Pharmacy", () => {
         min: MIN_BENEFIT + 1,
         max: MAX_BENEFIT - 1,
       });
-      const drug = new Drug("Herbal Tea", expiresIn, benefit);
+      const drug = new HerbalTea("Herbal Tea", expiresIn, benefit);
 
-      const expectedDrug = new Drug("Herbal Tea", expiresIn - 1, benefit + 1);
+      const expectedDrug = new HerbalTea(
+        "Herbal Tea",
+        expiresIn - 1,
+        benefit + 1,
+      );
       expect(new Pharmacy([drug]).updateBenefitValue()).toEqual([expectedDrug]);
     });
 
@@ -79,9 +84,13 @@ describe("Pharmacy", () => {
         min: MIN_BENEFIT,
         max: MAX_BENEFIT - 2,
       });
-      const drug = new Drug("Herbal Tea", expiresIn, benefit);
+      const drug = new HerbalTea("Herbal Tea", expiresIn, benefit);
 
-      const expectedDrug = new Drug("Herbal Tea", expiresIn - 1, benefit + 2);
+      const expectedDrug = new HerbalTea(
+        "Herbal Tea",
+        expiresIn - 1,
+        benefit + 2,
+      );
       expect(new Pharmacy([drug]).updateBenefitValue()).toEqual([expectedDrug]);
     });
 
@@ -91,27 +100,35 @@ describe("Pharmacy", () => {
         min: MIN_BENEFIT,
         max: MAX_BENEFIT - 2,
       });
-      const drug = new Drug("Herbal Tea", expiresIn, benefit);
+      const drug = new HerbalTea("Herbal Tea", expiresIn, benefit);
 
-      const expectedDrug = new Drug("Herbal Tea", expiresIn - 1, benefit + 1);
+      const expectedDrug = new HerbalTea(
+        "Herbal Tea",
+        expiresIn - 1,
+        benefit + 1,
+      );
       expect(new Pharmacy([drug]).updateBenefitValue()).toEqual([expectedDrug]);
     });
 
     it(`should not increase the benefit above ${MAX_BENEFIT}`, () => {
       const expiresIn = faker.number.int({ min: 2, max: 99 });
       const benefit = MAX_BENEFIT;
-      const drug = new Drug("Herbal Tea", expiresIn, benefit);
+      const drug = new HerbalTea("Herbal Tea", expiresIn, benefit);
 
-      const expectedDrug = new Drug("Herbal Tea", expiresIn - 1, benefit);
+      const expectedDrug = new HerbalTea("Herbal Tea", expiresIn - 1, benefit);
       expect(new Pharmacy([drug]).updateBenefitValue()).toEqual([expectedDrug]);
     });
 
     it(`should not increase the benefit above ${MAX_BENEFIT} when it should increase by 2`, () => {
       const expiresIn = faker.number.int({ min: -99, max: 0 });
       const benefit = MAX_BENEFIT - 1;
-      const drug = new Drug("Herbal Tea", expiresIn, benefit);
+      const drug = new HerbalTea("Herbal Tea", expiresIn, benefit);
 
-      const expectedDrug = new Drug("Herbal Tea", expiresIn - 1, MAX_BENEFIT);
+      const expectedDrug = new HerbalTea(
+        "Herbal Tea",
+        expiresIn - 1,
+        MAX_BENEFIT,
+      );
       expect(new Pharmacy([drug]).updateBenefitValue()).toEqual([expectedDrug]);
     });
   });
@@ -123,7 +140,7 @@ describe("Pharmacy", () => {
         min: MIN_BENEFIT,
         max: MAX_BENEFIT,
       });
-      const drug = new Drug("Magic Pill", expiresIn, benefit);
+      const drug = new MagicPill("Magic Pill", expiresIn, benefit);
 
       expect(new Pharmacy([drug]).updateBenefitValue()).toEqual([drug]);
     });
@@ -136,9 +153,9 @@ describe("Pharmacy", () => {
         min: MIN_BENEFIT,
         max: MAX_BENEFIT - 1,
       });
-      const drug = new Drug("Fervex", expiresIn, benefit);
+      const drug = new Fervex("Fervex", expiresIn, benefit);
 
-      const expectedDrug = new Drug("Fervex", expiresIn - 1, benefit + 1);
+      const expectedDrug = new Fervex("Fervex", expiresIn - 1, benefit + 1);
       expect(new Pharmacy([drug]).updateBenefitValue()).toEqual([expectedDrug]);
     });
 
@@ -148,9 +165,9 @@ describe("Pharmacy", () => {
         min: MIN_BENEFIT,
         max: MAX_BENEFIT - 2,
       });
-      const drug = new Drug("Fervex", expiresIn, benefit);
+      const drug = new Fervex("Fervex", expiresIn, benefit);
 
-      const expectedDrug = new Drug("Fervex", expiresIn - 1, benefit + 2);
+      const expectedDrug = new Fervex("Fervex", expiresIn - 1, benefit + 2);
       expect(new Pharmacy([drug]).updateBenefitValue()).toEqual([expectedDrug]);
     });
 
@@ -160,9 +177,9 @@ describe("Pharmacy", () => {
         min: MIN_BENEFIT,
         max: MAX_BENEFIT - 3,
       });
-      const drug = new Drug("Fervex", expiresIn, benefit);
+      const drug = new Fervex("Fervex", expiresIn, benefit);
 
-      const expectedDrug = new Drug("Fervex", expiresIn - 1, benefit + 3);
+      const expectedDrug = new Fervex("Fervex", expiresIn - 1, benefit + 3);
       expect(new Pharmacy([drug]).updateBenefitValue()).toEqual([expectedDrug]);
     });
 
@@ -172,9 +189,9 @@ describe("Pharmacy", () => {
         min: MIN_BENEFIT,
         max: MAX_BENEFIT - 3,
       });
-      const drug = new Drug("Fervex", expiresIn, benefit);
+      const drug = new Fervex("Fervex", expiresIn, benefit);
 
-      const expectedDrug = new Drug("Fervex", expiresIn - 1, 0);
+      const expectedDrug = new Fervex("Fervex", expiresIn - 1, 0);
       expect(new Pharmacy([drug]).updateBenefitValue()).toEqual([expectedDrug]);
     });
 
@@ -184,27 +201,27 @@ describe("Pharmacy", () => {
         min: MIN_BENEFIT,
         max: MAX_BENEFIT - 3,
       });
-      const drug = new Drug("Fervex", expiresIn, benefit);
+      const drug = new Fervex("Fervex", expiresIn, benefit);
 
-      const expectedDrug = new Drug("Fervex", expiresIn - 1, benefit + 3);
+      const expectedDrug = new Fervex("Fervex", expiresIn - 1, benefit + 3);
       expect(new Pharmacy([drug]).updateBenefitValue()).toEqual([expectedDrug]);
     });
 
     it(`should not increase the benefit above ${MAX_BENEFIT} when it should increase by 2`, () => {
       const expiresIn = faker.number.int({ min: 6, max: 10 });
       const benefit = MAX_BENEFIT - 1;
-      const drug = new Drug("Fervex", expiresIn, benefit);
+      const drug = new Fervex("Fervex", expiresIn, benefit);
 
-      const expectedDrug = new Drug("Fervex", expiresIn - 1, MAX_BENEFIT);
+      const expectedDrug = new Fervex("Fervex", expiresIn - 1, MAX_BENEFIT);
       expect(new Pharmacy([drug]).updateBenefitValue()).toEqual([expectedDrug]);
     });
 
     it(`should not increase the benefit above ${MAX_BENEFIT} when it should increase by 3`, () => {
       const expiresIn = faker.number.int({ min: 1, max: 5 });
       const benefit = MAX_BENEFIT - 1;
-      const drug = new Drug("Fervex", expiresIn, benefit);
+      const drug = new Fervex("Fervex", expiresIn, benefit);
 
-      const expectedDrug = new Drug("Fervex", expiresIn - 1, MAX_BENEFIT);
+      const expectedDrug = new Fervex("Fervex", expiresIn - 1, MAX_BENEFIT);
       expect(new Pharmacy([drug]).updateBenefitValue()).toEqual([expectedDrug]);
     });
   });
