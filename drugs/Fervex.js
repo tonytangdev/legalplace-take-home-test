@@ -1,19 +1,23 @@
+import { MAX_BENEFIT } from "../pharmacy";
 import { GenericDrug } from "./GenericDrug";
 
 export class Fervex extends GenericDrug {
   updateBenefit() {
-    if (this.expiresIn < 0) {
-      this.benefit = 0;
+    super.updateBenefit();
+
+    this.benefit = Math.min(this.benefit, MAX_BENEFIT);
+  }
+
+  computeValueToAddToBenefit() {
+    let value = 1;
+    if (this.expiresIn <= 0) {
+      value = -this.benefit;
     } else if (this.expiresIn <= 5) {
-      this.benefit += 3;
+      value = 3;
     } else if (this.expiresIn <= 10) {
-      this.benefit += 2;
-    } else {
-      this.benefit += 1;
+      value = 2;
     }
 
-    if (this.benefit > 50) {
-      this.benefit = 50;
-    }
+    return value;
   }
 }
