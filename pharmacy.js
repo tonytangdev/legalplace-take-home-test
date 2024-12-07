@@ -1,3 +1,6 @@
+export const MAX_BENEFIT = 50;
+export const MIN_BENEFIT = 0;
+
 export class Drug {
   constructor(name, expiresIn, benefit) {
     this.name = name;
