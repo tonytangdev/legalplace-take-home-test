@@ -61,7 +61,7 @@ describe("Pharmacy", () => {
     });
   });
 
-  describe("Herbal Tea", () => {
+  describe.only("Herbal Tea", () => {
     it("should increase the benefit and expiresIn", () => {
       const expiresIn = faker.number.int({ min: 2, max: 99 });
       const benefit = faker.number.int({
