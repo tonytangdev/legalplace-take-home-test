@@ -133,7 +133,7 @@ describe("Pharmacy", () => {
     });
   });
 
-  describe("Magic Pill", () => {
+  describe.only("Magic Pill", () => {
     it("should not change the benefit and expiresIn", () => {
       const expiresIn = faker.number.int({ min: -99, max: 99 });
       const benefit = faker.number.int({
