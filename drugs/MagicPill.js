@@ -1,7 +1,7 @@
 import { GenericDrug } from "./GenericDrug";
 
 export class MagicPill extends GenericDrug {
-  updateBenefit() {
+  update() {
     // MagicPill never expires or decreases in benefit
   }
 }
