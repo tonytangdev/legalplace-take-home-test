@@ -1,15 +1,14 @@
+import { MAX_BENEFIT } from "../pharmacy";
 import { GenericDrug } from "./GenericDrug";
 
 export class HerbalTea extends GenericDrug {
   updateBenefit() {
-    if (this.expiresIn < 0) {
-      this.benefit += 2;
-    } else {
-      this.benefit += 1;
-    }
+    super.updateBenefit();
 
-    if (this.benefit > 50) {
-      this.benefit = 50;
-    }
+    this.benefit = Math.min(this.benefit, MAX_BENEFIT);
+  }
+
+  computeValueToAddToBenefit() {
+    return this.expiresIn <= 0 ? 2 : 1;
   }
 }
