@@ -3,7 +3,7 @@ import { Pharmacy, MIN_BENEFIT, MAX_BENEFIT } from "./pharmacy";
 import { faker } from "@faker-js/faker";
 
 describe("Pharmacy", () => {
-  describe.only("Generic drug", () => {
+  describe("Generic drug", () => {
     it("should decrease the benefit and expiresIn", () => {
       const expiresIn = faker.number.int({ min: 1, max: 99 });
       const benefit = faker.number.int({
@@ -61,7 +61,7 @@ describe("Pharmacy", () => {
     });
   });
 
-  describe.only("Herbal Tea", () => {
+  describe("Herbal Tea", () => {
     it("should increase the benefit and expiresIn", () => {
       const expiresIn = faker.number.int({ min: 2, max: 99 });
       const benefit = faker.number.int({
@@ -133,7 +133,7 @@ describe("Pharmacy", () => {
     });
   });
 
-  describe.only("Magic Pill", () => {
+  describe("Magic Pill", () => {
     it("should not change the benefit and expiresIn", () => {
       const expiresIn = faker.number.int({ min: -99, max: 99 });
       const benefit = faker.number.int({
